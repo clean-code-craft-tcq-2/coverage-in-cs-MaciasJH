@@ -1,4 +1,5 @@
 using System;
+using TypewiseAlert.Models;
 using Xunit;
 
 namespace TypewiseAlert.Test
@@ -8,8 +9,8 @@ namespace TypewiseAlert.Test
     [Fact]
     public void InfersBreachAsPerLimits()
     {
-      Assert.True(TypewiseAlert.inferBreach(12, 20, 30) ==
-        TypewiseAlert.BreachType.TOO_LOW);
+      Assert.True(TypewiseAlert.InferBreach(12, new Limits{minLimit = 20, maxLimit = 30}) ==
+        Configuration.BreachConfig.BreachType.TOO_LOW);
     }
   }
 }
