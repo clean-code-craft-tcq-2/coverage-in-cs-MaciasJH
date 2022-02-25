@@ -59,12 +59,12 @@ namespace TypewiseAlert.Test
             var outputString = output.ToString();                       
             Assert.NotNull(outputString);
 
-            output.Dispose();
+            output.Flush();
             CheckAndAlert(targetEmail, batteryChar, temperatureOverMax);
             outputString = output.ToString();
             Assert.NotNull(outputString);
 
-            output.Dispose();
+            output.Flush();
             CheckAndAlert(targetController, batteryChar, temperatureOverMax);
             outputString = output.ToString();
             Assert.NotNull(outputString);
