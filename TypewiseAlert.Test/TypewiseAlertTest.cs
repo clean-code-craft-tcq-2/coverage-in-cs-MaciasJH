@@ -39,6 +39,7 @@ namespace TypewiseAlert.Test
             BatteryCharacter batteryChar = new BatteryCharacter { brand = "Test", coolingType = CoolingType.PASSIVE_COOLING };
             double temperatureOverMax = 55;
             double temperatureUnderMin = -21;
+            double temperatureNormal = 20;
 
             BreachType breachType = ClassifyTemperatureBreach(batteryChar.coolingType, temperatureOverMax);
             Alerter alerterController = new Alerter(targetController, breachType);
@@ -56,18 +57,24 @@ namespace TypewiseAlert.Test
             var output = new StringWriter();
             Console.SetOut(output);
             CheckAndAlert(targetEmail, batteryChar, temperatureUnderMin);
-            var outputString = output.ToString();                       
-            Assert.NotNull(outputString);
+            var outputString = output.ToString();
+            Assert.True(outputString.Length > 0);
 
-            output.Flush();
+            StringBuilder sb = output.GetStringBuilder();
+            sb.Remove(0, sb.Length);
             CheckAndAlert(targetEmail, batteryChar, temperatureOverMax);
             outputString = output.ToString();
-            Assert.NotNull(outputString);
+            Assert.True(outputString.Length > 0);
 
-            output.Flush();
+            sb.Remove(0, sb.Length);
+            CheckAndAlert(targetEmail, batteryChar, temperatureNormal);
+            outputString = output.ToString();
+            Assert.True(outputString.Length == 0);
+
+            sb.Remove(0, sb.Length);
             CheckAndAlert(targetController, batteryChar, temperatureOverMax);
             outputString = output.ToString();
-            Assert.NotNull(outputString);
+            Assert.True(outputString.Length > 0);
         }
     }
 }
