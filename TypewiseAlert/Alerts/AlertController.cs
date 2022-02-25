@@ -7,7 +7,7 @@ namespace TypewiseAlert.Configuration
         public void TriggerAlert(BreachConfig.BreachType breachType)
         {
             const ushort header = 0xfeed;
-            Console.WriteLine("{} : {}\n", header, breachType);
+            Console.WriteLine("{0} : {1}\n", header, breachType);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace TypewiseAlert.Configuration
             if (IsAlertTriggered(breachType))
             {
                 string body = messageBody[breachType];
-                Console.WriteLine("To: {}\n", recepient);
+                Console.WriteLine("To: {0}\n", recepient);
                 Console.WriteLine(body);
             }            
         }

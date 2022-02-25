@@ -21,7 +21,7 @@ namespace TypewiseAlert
             alertSender = alertTo[alertTarget];
         }
 
-        internal void SendAlert()
+        public void SendAlert()
         {
             alertSender.TriggerAlert(breachType);
         }
