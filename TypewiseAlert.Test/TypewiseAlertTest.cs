@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Text;
 using TypewiseAlert.Models;
 using Xunit;
 using static TypewiseAlert.Configuration.AlertConfig;
@@ -35,19 +37,37 @@ namespace TypewiseAlert.Test
             AlertTarget targetController = AlertTarget.TO_CONTROLLER;
             AlertTarget targetEmail = AlertTarget.TO_EMAIL;
             BatteryCharacter batteryChar = new BatteryCharacter { brand = "Test", coolingType = CoolingType.PASSIVE_COOLING };
-            double temperatureInC = 20; 
-            
-            BreachType breachType = ClassifyTemperatureBreach(batteryChar.coolingType, temperatureInC);
+            double temperatureOverMax = 55;
+            double temperatureUnderMin = -21;
+
+            BreachType breachType = ClassifyTemperatureBreach(batteryChar.coolingType, temperatureOverMax);
             Alerter alerterController = new Alerter(targetController, breachType);
             alerterController.Setup();
             alerterController.SendAlert();
             Assert.NotNull(alerterController);
 
-            breachType = ClassifyTemperatureBreach(batteryChar.coolingType, temperatureInC);
+            breachType = ClassifyTemperatureBreach(batteryChar.coolingType, temperatureOverMax);
             Alerter alerterEmail = new Alerter(targetEmail, breachType);
             alerterEmail.Setup();
             alerterEmail.SendAlert();
             Assert.NotNull(alerterEmail);
+
+            // E2E Tests
+            var output = new StringWriter();
+            Console.SetOut(output);
+            CheckAndAlert(targetEmail, batteryChar, temperatureUnderMin);
+            var outputString = output.ToString();                       
+            Assert.NotNull(outputString);
+
+            output.Dispose();
+            CheckAndAlert(targetEmail, batteryChar, temperatureOverMax);
+            outputString = output.ToString();
+            Assert.NotNull(outputString);
+
+            output.Dispose();
+            CheckAndAlert(targetController, batteryChar, temperatureOverMax);
+            outputString = output.ToString();
+            Assert.NotNull(outputString);
         }
     }
 }

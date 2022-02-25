@@ -18,7 +18,7 @@ namespace TypewiseAlert.Configuration
 
         public bool IsAlertTriggered(BreachType breachType)
         {
-            return breachType != 0 ? true : false;         
+            return breachType != BreachType.NORMAL ? true : false;         
         }
     }
 }
